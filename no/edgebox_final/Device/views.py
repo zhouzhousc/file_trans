@@ -999,7 +999,7 @@ def showApply(request):
         apply_interface.append(["驱动类型", "Modbus-RTU"])
 
         apply_interface.append(["驱动状态", apply_rtu[0].apply_rtu_active])
-        apply_interface.append(["Slave地址", apply_rtu[0].apply_rtu_slave])
+        apply_interface.append(["Subordinate地址", apply_rtu[0].apply_rtu_subordinate])
         apply_interface.append(["串口号", apply_rtu[0].apply_rtu_com])
         apply_interface.append(["波特率", apply_rtu[0].apply_rtu_botelv])
         apply_interface.append(["奇偶校验", apply_rtu[0].apply_rtu_parity])
@@ -1013,7 +1013,7 @@ def showApply(request):
         apply_interface.append(["驱动名称", apply_tcp[0].apply_tcp_drive])
         apply_interface.append(["驱动类型", "Modbus-TCP"])
         apply_interface.append(["驱动状态", apply_tcp[0].apply_tcp_active])
-        apply_interface.append(["Slave地址", apply_tcp[0].apply_tcp_slave])
+        apply_interface.append(["Subordinate地址", apply_tcp[0].apply_tcp_subordinate])
         apply_interface.append(["IP地址", apply_tcp[0].apply_tcp_ip])
         apply_interface.append(["端口号", apply_tcp[0].apply_tcp_port])
         apply_interface.append(["回复超时", apply_tcp[0].apply_tcp_timeout])
@@ -1119,7 +1119,7 @@ def templateApply(request):
                                                            apply_rtu_stopbit = vue_json["stopBit"],
                                                            apply_rtu_timeout = vue_json["timeout"],
                                                            apply_rtu_cycle = vue_json["cycle"],
-                                                           apply_rtu_slave = vue_json["address"],
+                                                           apply_rtu_subordinate = vue_json["address"],
                                                            apply_rtu_drive = vue_json["drive"],
                                                            apply_rtu_active = False)
             obj.save()
@@ -1131,7 +1131,7 @@ def templateApply(request):
                                                            apply_tcp_ip=vue_json["ip"],
                                                            apply_tcp_port=vue_json["port"],
                                                            apply_tcp_timeout=vue_json["timeout"],
-                                                           apply_tcp_slave=vue_json["address"],
+                                                           apply_tcp_subordinate=vue_json["address"],
                                                            apply_tcp_drive=vue_json["drive"],
                                                            apply_tcp_cycle=vue_json["cycle"],
                                                            apply_tcp_active=False)

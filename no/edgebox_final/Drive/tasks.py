@@ -262,26 +262,26 @@ class DriveModbusTcp(Task):
         print("start modbus tcp drive ",self.key)
 
         try:
-            master = modbus_tcp.TcpMaster(host=apply_interface["apply_tcp_ip"],
+            main = modbus_tcp.TcpMain(host=apply_interface["apply_tcp_ip"],
                                           port=int(apply_interface["apply_tcp_port"]),
                                           timeout_in_sec=float(apply_interface["apply_tcp_timeout"]))
-            var_list=self.init_val(apply_template, int(apply_interface["apply_tcp_slave"]))
-            self.loop_start(var_list, master, float(apply_interface["apply_tcp_cycle"]))
+            var_list=self.init_val(apply_template, int(apply_interface["apply_tcp_subordinate"]))
+            self.loop_start(var_list, main, float(apply_interface["apply_tcp_cycle"]))
             print("end modbus tcp drive ", self.key)
         except Exception as e:
             print(e)
         finally:
-            if 'master' in locals().keys():
-                master.close()
+            if 'main' in locals().keys():
+                main.close()
             self.conn.hset(self.key, "drive_enable", 0)
 
-    def loop_start(self, var_list, master, cycle):
+    def loop_start(self, var_list, main, cycle):
         # print(var_list)
         print(cycle)
         while int(self.conn.hget(self.key, "drive_enable").decode()):
             data = {}
             for var in var_list:
-                data[var[0]] = master.execute(var[1], var[2], var[3], var[4])[0]
+                data[var[0]] = main.execute(var[1], var[2], var[3], var[4])[0]
             # print(data) #采集的模板数据
             self.insert_db(data)
             time.sleep(cycle)
@@ -293,11 +293,11 @@ class DriveModbusTcp(Task):
         print(self.key+" 採集儲存成功！")
 
 
-    def init_val(self, apply_template, slave):
+    def init_val(self, apply_template, subordinate):
         var_list = []
         for etr in apply_template:
             # print(etr["etr_param"], etr["etr_code"], etr["etr_register"], etr["etr_register_num"])
-            var_list.append([etr["etr_param"], slave, int(etr["etr_code"]), int(etr["etr_register"],16), int(etr["etr_register_num"],16) ])
+            var_list.append([etr["etr_param"], subordinate, int(etr["etr_code"]), int(etr["etr_register"],16), int(etr["etr_register_num"],16) ])
         return var_list
 
 
@@ -321,7 +321,7 @@ class DriveModbusRtu(Task):
 
 
         try:
-            master = modbus_rtu.RtuMaster(
+            main = modbus_rtu.RtuMain(
                 serial.Serial(apply_interface["apply_rtu_com"],
                               baudrate=int(apply_interface["apply_rtu_botelv"]),
                               bytesize=int(apply_interface["apply_rtu_databit"]),
@@ -329,25 +329,25 @@ class DriveModbusRtu(Task):
                               stopbits=int(apply_interface["apply_rtu_stopbit"]),
                               xonxoff=0)
             )
-            master.set_timeout(float(apply_interface["apply_rtu_timeout"]), )
-            master.set_verbose(True)
-            var_list = self.init_val(apply_template, int(apply_interface["apply_rtu_slave"]))
-            self.loop_start(var_list, master, float(apply_interface["apply_rtu_cycle"]))
+            main.set_timeout(float(apply_interface["apply_rtu_timeout"]), )
+            main.set_verbose(True)
+            var_list = self.init_val(apply_template, int(apply_interface["apply_rtu_subordinate"]))
+            self.loop_start(var_list, main, float(apply_interface["apply_rtu_cycle"]))
             print("end modbus rtu drive ", self.key)
         except Exception as e:
             print(e)
         finally:
-            if 'master' in locals().keys():
-                master.close()
+            if 'main' in locals().keys():
+                main.close()
             self.conn.hset(self.key, "drive_enable", 0)
 
 
-    def loop_start(self, var_list, master, cycle):
+    def loop_start(self, var_list, main, cycle):
         print(cycle)
         while int(self.conn.hget(self.key, "drive_enable").decode()):
             data = {}
             for var in var_list:
-                data[var[0]] = master.execute(var[1], var[2], var[3], var[4])[0]
+                data[var[0]] = main.execute(var[1], var[2], var[3], var[4])[0]
             # print(data) #采集的模板数据
             self.insert_db(data)
             time.sleep(cycle)
@@ -358,11 +358,11 @@ class DriveModbusRtu(Task):
         cls.save()
         print(self.key+" 採集儲存成功！")
 
-    def init_val(self, apply_template, slave):
+    def init_val(self, apply_template, subordinate):
         var_list = []
         for etr in apply_template:
             # print(etr["etr_param"], etr["etr_code"], etr["etr_register"], etr["etr_register_num"])
-            var_list.append([etr["etr_param"], slave, int(etr["etr_code"]), int(etr["etr_register"], 16),
+            var_list.append([etr["etr_param"], subordinate, int(etr["etr_code"]), int(etr["etr_register"], 16),
                              int(etr["etr_register_num"], 16)])
         return var_list
 
