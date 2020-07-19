@@ -67,7 +67,7 @@ class applyTemplateRtuInterface(BaseModel):
     apply_rtu_stopbit = models.CharField(max_length=30, verbose_name="应用RTU接口停止位")
     apply_rtu_timeout = models.CharField(max_length=30, verbose_name="应用RTU接口回复超时")
     apply_rtu_cycle = models.CharField(max_length=30, verbose_name="应用RTU接口读写周期")
-    apply_rtu_slave = models.CharField(max_length=30, verbose_name="应用RTU接口slave地址")
+    apply_rtu_subordinate = models.CharField(max_length=30, verbose_name="应用RTU接口subordinate地址")
     apply_rtu_drive = models.CharField(max_length=30, verbose_name="应用RTU接口绑定的驱动名称")
     apply_rtu_active = models.BooleanField(default=True, verbose_name="应用RTU接口是否启动")
 
@@ -86,7 +86,7 @@ class applyTemplateTcpInterface(BaseModel):
     apply_tcp_port = models.CharField(max_length=30, verbose_name="应用TCP接口端口号")
     apply_tcp_timeout = models.CharField(max_length=30, verbose_name="应用TCP接口回复超时")
     apply_tcp_cycle = models.CharField(max_length=30, verbose_name="应用TCP接口读写周期")
-    apply_tcp_slave = models.CharField(max_length=30, verbose_name="应用TCP接口slave地址")
+    apply_tcp_subordinate = models.CharField(max_length=30, verbose_name="应用TCP接口subordinate地址")
     apply_tcp_drive = models.CharField(max_length=30, verbose_name="应用TCP接口绑定的驱动名称")
     apply_tcp_active = models.BooleanField(default=True,  verbose_name="应用TCP接口是否启动")
 
