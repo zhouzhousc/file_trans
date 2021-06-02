@@ -35,7 +35,7 @@ requests==2.22.0
 six==1.12.0
 sqlparse==0.3.0
 tornado==5.1.1
-urllib3==1.25.3
+urllib3==1.26.5
 vine==1.3.0
 WMI==1.4.9
 zipp==0.5.2
